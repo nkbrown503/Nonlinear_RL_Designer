@@ -27,12 +27,12 @@ class CriticNetwork(keras.Model):
         self.checkpoint_dir = chkpt_dir
         self.checkpoint_file = os.path.join(self.checkpoint_dir, 
                     self.model_name+'_ddpg')
-        self.fc0 = Dense(4096,activation='relu')
-        self.fc1 = Dense(2048,activation='relu')
-        self.fc2 = Dense(1024,activation='relu')
-        self.fc3 = Dense(512,activation='relu')
-        self.fc4 = Dense(256,activation='relu')
-        #self.fc4 = Dense(32)
+        self.fc0 = Dense(2048,activation='relu')
+        self.fc1 = Dense(1024,activation='relu')
+        self.fc2 = Dense(512,activation='relu')
+        self.fc3 = Dense(256,activation='relu')
+        self.fc4 = Dense(128,activation='relu')
+       
 
         self.q = Dense(1, activation=None)
 
@@ -68,11 +68,11 @@ class ActorNetwork(keras.Model):
         self.checkpoint_dir = chkpt_dir
         self.checkpoint_file = os.path.join(self.checkpoint_dir, 
                     self.model_name+'_ddpg')
-        self.fc0 = Dense(4096,activation='relu')
-        self.fc1 = Dense(2048,activation='relu')
-        self.fc2 = Dense(1024,activation='relu')
-        self.fc3 = Dense(512,activation='relu')
-        self.fc4 = Dense(256,activation='relu')
+        self.fc0 = Dense(2048,activation='relu')
+        self.fc1 = Dense(1024,activation='relu')
+        self.fc2 = Dense(512,activation='relu')
+        self.fc3 = Dense(256,activation='relu')
+        self.fc4 = Dense(128,activation='relu')
 
         self.mu = Dense(self.n_actions, activation='sigmoid')
 
