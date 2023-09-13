@@ -17,20 +17,45 @@ def get_zero_label(d, labels):
             if d[i,j]==0:
                 return labels[i,j]
 
-def isolate_largest_group_original(x):
-    """Isolates the largest group. 
-    this original version has problems with periodicity. The v2 version fixes this. """
-    x_original = np.copy(x)    
-    labels= label_(x)
-    zerolabel=get_zero_label(x,labels)
-    group_names = np.unique(labels)      
-    group_names = [g for g in group_names if g!=zerolabel]   
-    vols = np.array([(labels==name).sum() for name in group_names])
-    largestgroup_name = group_names[np.argmax(vols)]    
-    x = labels == largestgroup_name
-    x = x.astype("int")
-    design_ok = np.all(x==x_original)  
-    return x, design_ok
+def are_ones_continuous(matrix): #Use ths code to check if the unit cell is a single continous body to ensure the unit cell is manufacturable 
+    rows = len(matrix)
+    cols = len(matrix[0])
+
+    # Initialize variables to track the region of ones
+    ones_region = set()
+
+    def explore_region(row, col):
+        if row < 0 or row >= rows or col < 0 or col >= cols:
+            return
+
+        if (row, col) in ones_region:
+            return
+
+        if matrix[row][col] == 1:
+            ones_region.add((row, col))
+        else:
+            return
+
+        explore_region(row + 1, col)
+        explore_region(row - 1, col)
+        explore_region(row, col + 1)
+        explore_region(row, col - 1)
+
+    start_row = -1
+    start_col = -1
+    for row in range(rows):
+        for col in range(cols):
+            if matrix[row][col] == 1:
+                start_row = row
+                start_col = col
+                break
+        if start_row != -1:
+            break
+
+    explore_region(start_row, start_col)
+
+    return len(ones_region) == sum(sum(row) for row in matrix)
+
 def rectangularmesh(Lx,Ly,ElementsX,ElementsY):
     Nx=ElementsX
     Ny=ElementsY
