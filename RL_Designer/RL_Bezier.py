@@ -34,11 +34,11 @@ def RL_Bezier_Design(action,state_UC):
     P_2=[math.floor(action[4]*(E_Y-1)),math.floor(action[5]*(E_X-1))]
 
     if action[6]<0.5:
-        Thickness=2
+        Thickness=3
         Choice=0
     elif action[6]>=0.5:
         Choice=1
-        Thickness=3
+        Thickness=4
 
 
     #Build=round(action[7])
